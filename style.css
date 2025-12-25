@@ -1,0 +1,84 @@
+:root {
+    --bg: #f8fafc;
+    --bg-secondary: #fff;
+    --text: #1e293b;
+    --accent: #3b82f6;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] {
+    --bg: #0f172a;
+    --bg-secondary: #1e293b;
+    --text: #f1f5f9;
+    --border: #334155;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+header {
+    background: linear-gradient(135deg, var(--accent), #1d4ed8);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+header h1 { font-size: 2.5rem; margin: 0; font-weight: 600; }
+header h1 span { font-weight: 400; opacity: 0.9; }
+
+#theme-toggle {
+    position: absolute; top: 20px; right: 20px;
+    background: rgba(255,255,255,0.2); color: white;
+    border: none; border-radius: 50%; width: 50px; height: 50px;
+    cursor: pointer; font-size: 1.2rem;
+}
+
+.tg-mini-btn {
+    display: inline-block; margin-top: 1rem;
+    background: #0088cc; color: white; padding: 12px 24px;
+    text-decoration: none; border-radius: 25px; font-weight: 500;
+    box-shadow: var(--shadow);
+}
+
+.chapter { margin-bottom: 3rem; }
+.chapter h2 { 
+    background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px;
+    border-left: 5px solid var(--accent); font-size: 1.8rem;
+}
+
+.accordion {
+    background: var(--bg-secondary); margin-bottom: 1rem;
+    border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.accordion-header {
+    padding: 1.5rem; cursor: pointer; display: flex; justify-content: space-between;
+    font-weight: 500; transition: background 0.2s;
+}
+
+.accordion-header:hover { background: var(--accent); color: white; }
+.accordion-header:hover .icon { color: white; }
+
+.accordion-content {
+    padding: 0 1.5rem 1.5rem; max-height: 0; overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.accordion.active .accordion-content { max-height: 1000px; padding: 1.5rem; }
+
+.law-info { background: var(--bg-secondary); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; border-left: 5px solid var(--accent); }
+
+@media (max-width: 768px) {
+    header h1 { font-size: 2rem; }
+    .tg-mini-btn { padding: 10px 20px; font-size: 0.9rem; }
+}
