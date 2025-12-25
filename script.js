@@ -19,6 +19,6 @@ document.querySelectorAll('.accordion-header').forEach(header => {
 document.querySelector('.tg-mini-btn').addEventListener('click', (e) => {
     // Замените your_bot на вашего бота
     if (window.Telegram?.WebApp) {
-        Telegram.WebApp.openTelegramLink('https://t.me/your_bot/app?startapp=fz77');
+        Telegram.WebApp.openTelegramLink('https://t.me/fz77law_bot/app?startapp=fz77');
     }
 });
