@@ -1,39 +1,3 @@
-// Темная/светлая тема
-const toggle = document.getElementById('theme-toggle');
-const html = document.documentElement;
-
-toggle.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    html.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
-    toggle.textContent = current === 'dark' ? '☀️' : '🌙';
-});
-
-// Аккордеон: одна статья открыта, клик по заголовку или тексту
-const accordions = document.querySelectorAll('.accordion');
-
-accordions.forEach(accordion => {
-    const header = accordion.querySelector('.accordion-header');
-    const content = accordion.querySelector('.accordion-content');
-
-    function toggleAccordion() {
-        const isActive = accordion.classList.contains('active');
-
-        // сначала закрываем все остальные
-        accordions.forEach(a => a.classList.remove('active'));
-
-        // если текущая была закрыта — открываем её,
-        // если была открыта — оставляем все закрытыми
-        if (!isActive) {
-            accordion.classList.add('active');
-        }
-    }
-
-    // клик по заголовку
-    header.addEventListener('click', toggleAccordion);
-
-    // клик по тексту
-    content.addEventListener('click', toggleAccordion);
-});
 // Переключение темы
 const themeToggle = document.getElementById('theme-toggle');
 const rootHtml = document.documentElement;
@@ -50,18 +14,31 @@ if (themeToggle) {
 const contentArea = document.getElementById('content-area');
 const navButtons = document.querySelectorAll('.main-nav button');
 
+// будем хранить, какая страница сейчас открыта
+let currentPage = null;
+
 async function loadPage(url) {
     if (!contentArea) return;
+
+    // если кликаем по уже открытой странице — сворачиваем
+    if (currentPage === url) {
+        contentArea.innerHTML = '<p>Выберите раздел в меню выше, чтобы открыть закон или материал.</p>';
+        currentPage = null;
+        return;
+    }
+
     try {
         contentArea.innerHTML = '<p>Загрузка...</p>';
         const resp = await fetch(url);
         const html = await resp.text();
         contentArea.innerHTML = html;
+        currentPage = url;
 
         // после подгрузки навешиваем аккордеон на новые элементы
         initAccordions();
     } catch (e) {
         contentArea.innerHTML = '<p>Ошибка загрузки раздела.</p>';
+        currentPage = null;
     }
 }
 
@@ -97,6 +74,10 @@ function initAccordions() {
         content.onclick = toggleAccordion;
     });
 }
+
+// если на стартовой когда‑нибудь будут аккордеоны
+initAccordions();
+
 
 // если на стартовой когда‑нибудь будут аккордеоны
 initAccordions();
