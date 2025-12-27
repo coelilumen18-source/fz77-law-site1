@@ -7,18 +7,18 @@ toggle.addEventListener('click', () => {
     toggle.textContent = current === 'dark' ? '☀️' : '🌙';
 });
 
-// Аккордеон
-document.querySelectorAll('.accordion-header').forEach(header => {
+// Аккордеон: открытие/закрытие по клику и на заголовок, и на текст
+document.querySelectorAll('.accordion').forEach(accordion => {
+    const header = accordion.querySelector('.accordion-header');
+    const content = accordion.querySelector('.accordion-content');
+
+    // клик по заголовку
     header.addEventListener('click', () => {
-        const accordion = header.parentElement;
         accordion.classList.toggle('active');
     });
-});
 
-// Telegram Mini App интеграция (открытие по кнопке)
-document.querySelector('.tg-mini-btn').addEventListener('click', (e) => {
-    // Замените your_bot на вашего бота
-    if (window.Telegram?.WebApp) {
-        Telegram.WebApp.openTelegramLink('https://t.me/fz77law_bot/app?startapp=fz77');
-    }
+    // клик по тексту статьи
+    content.addEventListener('click', () => {
+        accordion.classList.toggle('active');
+    });
 });
