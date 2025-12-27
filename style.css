@@ -144,3 +144,68 @@ header h1 span {
     .tg-mini-btn { padding: 8px 14px; font-size: 0.85rem; }
     .container { padding: 0 8px; }
 }
+/* Главное меню - крупные кнопки */
+.main-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(255,255,255,0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.main-nav button {
+    flex: 1;
+    min-width: 280px;
+    padding: 1.2rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+    border: 2px solid #d1d9ff;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.main-nav button:hover {
+    background: linear-gradient(135deg, #e8ecff 0%, #d1d9ff 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    border-color: #a8b4ff;
+}
+
+.main-nav button:active {
+    transform: translateY(0);
+}
+
+/* Темная тема */
+[data-theme="dark"] .main-nav {
+    background: rgba(0,0,0,0.3);
+    border-color: rgba(255,255,255,0.1);
+}
+
+[data-theme="dark"] .main-nav button {
+    color: #e8ecff;
+    background: linear-gradient(135deg, #2a2a3a 0%, #1a1a2a 100%);
+    border-color: #4a4a6a;
+}
+
+[data-theme="dark"] .main-nav button:hover {
+    background: linear-gradient(135deg, #3a3a4a 0%, #2a2a3a 100%);
+    border-color: #6a6a8a;
+}
+
+/* Адаптив: на мобилках кнопки на всю ширину */
+@media (max-width: 768px) {
+    .main-nav button {
+        min-width: 100%;
+        font-size: 1rem;
+        padding: 1rem;
+    }
+}
