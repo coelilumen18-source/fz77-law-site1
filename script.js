@@ -35,7 +35,7 @@ const navButtons = document.querySelectorAll('.main-nav button');
 
 // будем хранить, какая страница сейчас открыта
 let currentPage = null;
-
+contentArea.scrollIntoView({behavior: 'smooth'});
 async function loadPage(url) {
     if (!contentArea) return;
 
