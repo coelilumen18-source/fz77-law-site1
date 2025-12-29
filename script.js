@@ -1,3 +1,22 @@
+// Добавь в начало JS
+function debounce(fn, ms) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn(...args), ms);
+    };
+}
+
+const debouncedLoadPage = debounce(loadPage, 300);
+
+// Замени navButtons.forEach на:
+navButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const url = btn.getAttribute('data-page');
+        if (url) debouncedLoadPage(url);
+    });
+});
 // Переключение темы
 const themeToggle = document.getElementById('theme-toggle');
 const rootHtml = document.documentElement;
