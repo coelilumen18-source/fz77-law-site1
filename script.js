@@ -99,7 +99,11 @@ async function startQuiz() {
         firstaid: 41, special: 20, fire: 84
     };
     const count = counts[currentQuiz] || 10;
-    
+    async function startQuiz() {
+    const response = await fetch(`questions/${currentQuiz}.json`);  // ← ИЩЕТ ЗДЕСЬ!
+    quizData = await response.json();
+}
+
     // ✅ ЧИТАЕМ РЕАЛЬНЫЕ JSON ФАЙЛЫ
     try {
         contentArea.innerHTML = '<p>Загрузка вопросов...</p>';
