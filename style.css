@@ -5,6 +5,8 @@
     --accent: #3b82f6;
     --border: #e2e8f0;
     --shadow: 0 4px 6px rgba(0,0,0,0.08);
+    --pad-sm: 0.8rem 1.1rem;
+    --pad-xs: 0.7rem 1.1rem;
 }
 
 [data-theme="dark"] {
@@ -23,25 +25,26 @@ body {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Сужаем поля и делаем текст компактнее */
 .container {
-    max-width: 1000px;     /* было 1200 */
+    max-width: 1000px;
     margin: 0 auto;
-    padding: 0 10px;       /* было 0 20px */
+    padding: 0 10px;
 }
 
 header {
     background: linear-gradient(135deg, var(--accent), #1d4ed8);
     color: white;
-    padding: 1.4rem 0;     /* было 2rem 0 */
+    padding: 1.4rem 0;
     text-align: center;
+    position: relative;
 }
 
 header h1 {
-    font-size: 2rem;       /* было 2.5rem */
+    font-size: 2rem;
     margin: 0;
     font-weight: 600;
 }
+
 header h1 span {
     font-weight: 400;
     opacity: 0.9;
@@ -59,6 +62,7 @@ header h1 span {
     height: 42px;
     cursor: pointer;
     font-size: 1.1rem;
+    backdrop-filter: blur(10px);
 }
 
 .tg-mini-btn {
@@ -74,77 +78,7 @@ header h1 span {
     font-size: 0.9rem;
 }
 
-/* Главы и статьи — компактнее */
-.chapter {
-    margin-bottom: 2rem;   /* было 3rem */
-}
-.chapter h2 {
-    background: var(--bg-secondary);
-    padding: 0.9rem 1.1rem;   /* было 1.5rem */
-    border-radius: 8px;
-    border-left: 4px solid var(--accent);
-    font-size: 1.2rem;        /* было 1.8rem */
-    margin: 0 0 0.8rem;
-}
-
-.accordion {
-    background: var(--bg-secondary);
-    margin-bottom: 0.6rem;    /* было 1rem */
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-}
-
-.accordion-header {
-    padding: 0.8rem 1.1rem;   /* было 1.5rem */
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    font-weight: 500;
-    font-size: 0.96rem;
-    transition: background 0.15s ease, color 0.15s ease;
-}
-
-.accordion-header:hover {
-    background: var(--accent);
-    color: white;
-}
-.accordion-header:hover .icon {
-    color: white;
-}
-
-/* Убираем ограничение по высоте, чтобы статья не обрезалась */
-.accordion-content {
-    padding: 0 1.1rem;
-    display: none;              /* вместо max-height */
-    font-size: 0.95rem;
-}
-
-.accordion.active .accordion-content {
-    display: block;
-    padding: 0.7rem 1.1rem 1rem;
-}
-
-.accordion-content p {
-    margin: 0.25rem 0;          /* меньше расстояние между абзацами */
-}
-
-.law-info {
-    background: var(--bg-secondary);
-    padding: 1rem 1.1rem;       /* было 1.5rem */
-    border-radius: 8px;
-    margin: 1rem 0 1.5rem;
-    border-left: 4px solid var(--accent);
-    font-size: 0.95rem;
-}
-
-@media (max-width: 768px) {
-    header h1 { font-size: 1.6rem; }
-    .tg-mini-btn { padding: 8px 14px; font-size: 0.85rem; }
-    .container { padding: 0 8px; }
-}
-/* Главное меню - крупные кнопки */
+/* Главное меню */
 .main-nav {
     display: flex;
     flex-wrap: wrap;
@@ -184,7 +118,7 @@ header h1 span {
     transform: translateY(0);
 }
 
-/* Темная тема */
+/* Темная тема для меню */
 [data-theme="dark"] .main-nav {
     background: rgba(0,0,0,0.3);
     border-color: rgba(255,255,255,0.1);
@@ -201,14 +135,73 @@ header h1 span {
     border-color: #6a6a8a;
 }
 
-/* Адаптив: на мобилках кнопки на всю ширину */
-@media (max-width: 768px) {
-    .main-nav button {
-        min-width: 100%;
-        font-size: 1rem;
-        padding: 1rem;
-    }
+/* Законы: главы и статьи */
+.chapter {
+    margin-bottom: 2rem;
 }
+
+.chapter h2 {
+    background: var(--bg-secondary);
+    padding: var(--pad-sm);
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+    font-size: 1.2rem;
+    margin: 0 0 0.8rem;
+}
+
+.accordion {
+    background: var(--bg-secondary);
+    margin-bottom: 0.6rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.accordion-header {
+    padding: var(--pad-sm);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 0.96rem;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.accordion-header:hover {
+    background: var(--accent);
+    color: white;
+}
+
+.accordion-header:hover .icon {
+    color: white;
+}
+
+.accordion-content {
+    padding: 0 1.1rem;
+    display: none;
+    font-size: 0.95rem;
+}
+
+.accordion.active .accordion-content {
+    display: block;
+    padding: var(--pad-xs) 1.1rem;
+}
+
+.accordion-content p {
+    margin: 0.25rem 0;
+}
+
+.law-info {
+    background: var(--bg-secondary);
+    padding: var(--pad-sm);
+    border-radius: 8px;
+    margin: 1rem 0 1.5rem;
+    border-left: 4px solid var(--accent);
+    font-size: 0.95rem;
+}
+
+/* Тесты ВОХР */
 .tests-menu {
     text-align: center;
     padding: 2rem 1rem;
@@ -242,6 +235,16 @@ header h1 span {
     position: relative;
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    color: white;
+    text-align: center;
+}
+
+.test-btn span {
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.9;
+    display: block;
+    margin-top: 0.25rem;
 }
 
 .test-btn::before {
@@ -255,7 +258,14 @@ header h1 span {
     transition: left 0.5s;
 }
 
-.test-btn:hover::before { left: 100%; }
+.test-btn:hover::before {
+    left: 100%;
+}
+
+.test-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
 
 .exam { background: linear-gradient(135deg, #10b981, #059669); }
 .marathon { background: linear-gradient(135deg, #f59e0b, #d97706); }
@@ -265,6 +275,7 @@ header h1 span {
 .special { background: linear-gradient(135deg, #14b8a6, #0d9488); }
 .fire { background: linear-gradient(135deg, #84cc16, #65a30d); }
 
+/* Квиз */
 .quiz-container {
     max-width: 800px;
     margin: 2rem auto;
@@ -303,15 +314,57 @@ header h1 span {
     margin-bottom: 1rem;
     border: 2px solid var(--border);
     border-radius: 12px;
-    background: white;
+    background: var(--bg);
+    color: var(--text);
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 1rem;
 }
 
-.option-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
-.option-btn.selected { background: var(--accent); color: white; }
+.option-btn:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
+.option-btn.selected {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.next-btn {
+    padding: 12px 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Адаптив */
 @media (max-width: 768px) {
-    .test-buttons { grid-template-columns: 1fr; }
-    .quiz-container { margin: 1rem; padding: 1.5rem; }
+    header h1 { font-size: 1.6rem; }
+    .tg-mini-btn { padding: 8px 14px; font-size: 0.85rem; }
+    .container { padding: 0 8px; }
+    .main-nav button {
+        min-width: 100%;
+        font-size: 1rem;
+        padding: 1rem;
+    }
+    .test-buttons {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .quiz-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    .test-btn {
+        padding: 1.5rem 1rem;
+        font-size: 1rem;
+    }
 }
