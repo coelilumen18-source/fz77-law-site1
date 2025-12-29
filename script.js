@@ -1,11 +1,3 @@
-// Добавь в начало JS
-function debounce(fn, ms) {
-    let timeout;
-    return (...args) => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => fn(...args), ms);
-    };
-}
 
 const debouncedLoadPage = debounce(loadPage, 300);
 
