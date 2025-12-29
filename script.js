@@ -8,7 +8,91 @@ navButtons.forEach(btn => {
         const url = btn.getAttribute('data-page');
         if (url) debouncedLoadPage(url);
     });
-});
+// После navButtons.forEach добавь:
+let quizData = {}; // Хранилище вопросов
+let currentQuiz = null;
+let currentQuestion = 0;
+let userAnswers = [];
+
+// Инициализация тестов
+function initTests() {
+    const testBtns = document.querySelectorAll('.test-btn');
+    testBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const testType = btn.dataset.test;
+            startQuiz(testType);
+        });
+    });
+}
+
+// Загрузка вопросов (ты закинешь JSON файлы)
+async function loadQuizData(testType) {
+    try {
+        const response = await fetch(`questions/${testType}.json`);
+        return await response.json();
+    } catch {
+        return generateDummyQuestions(10); // заглушки пока нет файла
+    }
+}
+
+function startQuiz(testType) {
+    currentQuiz = testType;
+    loadQuizData(testType).then(questions => {
+        quizData = questions;
+        currentQuestion = 0;
+        userAnswers = [];
+        showQuestion();
+    });
+}
+
+function showQuestion() {
+    const container = document.querySelector('.content-area');
+    container.innerHTML = `
+        <div class="quiz-container">
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="quiz-question">Вопрос ${currentQuestion + 1}/${quizData.length}</div>
+            <div id="options-container"></div>
+            <button class="next-btn" style="display:none; margin-top:2rem;">Далее</button>
+        </div>
+    `;
+    
+    const progressFill = container.querySelector('.progress-fill');
+    progressFill.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+    
+    const optionsContainer = container.querySelector('#options-container');
+    quizData[currentQuestion].options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = option;
+        btn.onclick = () => selectOption(index, btn);
+        optionsContainer.appendChild(btn);
+    });
+    
+    const nextBtn = container.querySelector('.next-btn');
+    nextBtn.onclick = nextQuestion;
+}
+
+function selectOption(index, btn) {
+    document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    userAnswers[currentQuestion] = index;
+    btn.parentNode.querySelector('.next-btn').style.display = 'block';
+}
+
+function nextQuestion() {
+    if (currentQuestion < quizData.length - 1) {
+        currentQuestion++;
+        showQuestion();
+    } else {
+        showResults();
+    }
+}
+
+// Вызови после загрузки любой страницы
+document.addEventListener('DOMContentLoaded', initTests);
+
 // Переключение темы
 const themeToggle = document.getElementById('theme-toggle');
 const rootHtml = document.documentElement;
