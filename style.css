@@ -209,3 +209,109 @@ header h1 span {
         padding: 1rem;
     }
 }
+.tests-menu {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.tests-menu h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, var(--accent), #1d4ed8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.test-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.test-btn {
+    padding: 2rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.test-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s;
+}
+
+.test-btn:hover::before { left: 100%; }
+
+.exam { background: linear-gradient(135deg, #10b981, #059669); }
+.marathon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.legal { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+.tactical { background: linear-gradient(135deg, #ef4444, #dc2626); }
+.firstaid { background: linear-gradient(135deg, #06b6d4, #0891b2); }
+.special { background: linear-gradient(135deg, #14b8a6, #0d9488); }
+.fire { background: linear-gradient(135deg, #84cc16, #65a30d); }
+
+.quiz-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #1d4ed8);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+.quiz-question {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.option-btn {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option-btn:hover { border-color: var(--accent); transform: translateY(-2px); }
+.option-btn.selected { background: var(--accent); color: white; }
+
+@media (max-width: 768px) {
+    .test-buttons { grid-template-columns: 1fr; }
+    .quiz-container { margin: 1rem; padding: 1.5rem; }
+}
