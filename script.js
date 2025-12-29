@@ -107,7 +107,8 @@ async function startQuiz() {
         if (!response.ok) {
             throw new Error(`Файл questions/${currentQuiz}.json не найден (код: ${response.status})`);
         }
-        
+        fetch('questions/legal.json').then(r=>r.text()).then(t=>console.log('✅ JSON OK:', t.substring(0,200)))
+
         quizData = await response.json();
         
         // Случайный выбор для экзамена/марафона
