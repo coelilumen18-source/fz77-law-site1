@@ -1,4 +1,4 @@
-// 🔥 ТЕСТЫ ВОХР Pro — Сохранение + Работа над ошибками + История (КОМПАКТНАЯ ВЕРСИЯ)
+// 🔥 ТЕСТЫ ВОХР Pro — Сохранение + Ошибки + История (ЧИСТЫЙ)
 // Автор: Perplexity AI для coelilumen18-source
 
 // Утилиты
@@ -10,7 +10,7 @@ function debounce(fn, ms) {
     };
 }
 
-// 🔥 localStorage API
+// 🔥 localStorage API (только сохранение)
 const STORAGE = {
     getResults() { return JSON.parse(localStorage.getItem('vohr_results') || '[]'); },
     saveResult(quiz, score, total, date) {
@@ -27,12 +27,6 @@ const STORAGE = {
             mistakes.push(questionIndex);
             localStorage.setItem(`vohr_mistakes_${quiz}`, JSON.stringify(mistakes));
         }
-    },
-    clearResults() { localStorage.removeItem('vohr_results'); },
-    clearMistakes(quiz) { localStorage.removeItem(`vohr_mistakes_${quiz}`); },
-    clearAll() {
-        this.clearResults();
-        ['exam','marathon','legal','tactical','firstaid','special','fire'].forEach(q => this.clearMistakes(q));
     },
     updateMistakesButtons() {
         document.querySelectorAll('.mistakes-btn').forEach(btn => {
@@ -235,40 +229,51 @@ function showQuizQuestion() {
     });
 }
 
+// 🔥 МИГАНЬНАЯ кнопка "Продолжить"
 function selectOption(selectedIndex, clickedBtn) {
     const correctIndex = quizData[currentQuestion].correct;
     
-    document.querySelectorAll('.option-compact').forEach((btn, index) => {
-        btn.disabled = true;
-        btn.style.cursor = 'not-allowed';
-        
-        if (index === correctIndex) {
-            btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
-            btn.style.color = 'white';
-            btn.style.border = '2px solid #10b981';
-            btn.innerHTML += ' <span style="font-size:0.9rem;">✅</span>';
-        } else if (index === selectedIndex) {
-            btn.style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
-            btn.style.color = 'white';
-            btn.style.border = '2px solid #ef4444';
-            btn.innerHTML += ' <span style="font-size:0.9rem;">❌</span>';
-            STORAGE.addMistake(currentQuiz, currentQuestion);
-        } else {
-            btn.style.opacity = '0.5';
-        }
-    });
+    // 🔥 1. МИГАНЬНО кнопка "Продолжить" (0.1 сек)
+    const nextBtn = document.createElement('button');
+    nextBtn.innerHTML = `➡️ Продолжить (${currentQuestion + 2}/${quizData.length})`;
+    nextBtn.className = 'next-compact';
+    nextBtn.onclick = nextQuestion;
+    nextBtn.style.opacity = '0.7';
+    nextBtn.style.transform = 'translateY(10px)';
+    contentArea.appendChild(nextBtn);
     
-    if (selectedIndex === correctIndex) correctCount++;
-    userAnswers[currentQuestion] = selectedIndex;
-    
-    // КОМПАКТНАЯ кнопка "Продолжить"
+    // 🔥 2. АНИМАЦИЯ кнопки (вверх)
     setTimeout(() => {
-        const nextBtn = document.createElement('button');
-        nextBtn.innerHTML = `➡️ Продолжить (${currentQuestion + 2}/${quizData.length})`;
-        nextBtn.className = 'next-compact';
-        nextBtn.onclick = nextQuestion;
-        contentArea.appendChild(nextBtn);
-    }, 2200);
+        nextBtn.style.transition = 'all 0.4s ease';
+        nextBtn.style.opacity = '1';
+        nextBtn.style.transform = 'translateY(0)';
+    }, 100);
+    
+    // 🔥 3. АНИМАЦИЯ ответов (через 200мс)
+    setTimeout(() => {
+        document.querySelectorAll('.option-compact').forEach((btn, index) => {
+            btn.disabled = true;
+            btn.style.cursor = 'not-allowed';
+            
+            if (index === correctIndex) {
+                btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+                btn.style.color = 'white';
+                btn.style.border = '2px solid #10b981';
+                btn.innerHTML += ' <span style="font-size:0.9rem;">✅</span>';
+            } else if (index === selectedIndex) {
+                btn.style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
+                btn.style.color = 'white';
+                btn.style.border = '2px solid #ef4444';
+                btn.innerHTML += ' <span style="font-size:0.9rem;">❌</span>';
+                STORAGE.addMistake(currentQuiz, currentQuestion);
+            } else {
+                btn.style.opacity = '0.5';
+            }
+        });
+        
+        if (selectedIndex === correctIndex) correctCount++;
+        userAnswers[currentQuestion] = selectedIndex;
+    }, 200);
 }
 
 function nextQuestion() {
@@ -310,12 +315,9 @@ function showResults() {
                 </button>
             </div>
             
-            <div style="text-align:center;margin-top:3rem;padding:2rem;background:#f1f5f9;border-radius:20px;">
-                <p style="font-size:1.1rem;color:#6b7280;margin-bottom:1rem;">💾 Результат сохранён автоматически</p>
-                <button onclick="STORAGE.clearAll();alert('✅ Статистика сброшена!');location.reload();" style="padding:1rem 2rem;background:#ef4444;color:white;border:none;border-radius:12px;font-weight:600;">
-                    🗑️ Очистить статистику
-                </button>
-            </div>
+            <p style="text-align:center;margin-top:2rem;padding:1.5rem;background:#f1f5f9;border-radius:16px;color:#6b7280;">
+                💾 Результат сохранён автоматически
+            </p>
         </div>
     `;
 }
@@ -347,13 +349,9 @@ function showResultsHistory() {
                     <div style="font-size:4rem;margin-bottom:1rem;">📭</div>
                     <h3>Нет результатов</h3>
                     <p>Пройдите любой тест!</p>
+                    <button onclick="location.reload()" style="padding:1rem 2rem;background:var(--accent);color:white;border:none;border-radius:12px;font-size:1rem;margin-top:1.5rem;">← Назад к тестам</button>
                 </div>
             `}
-            <div style="text-align:center;margin-top:3rem;">
-                <button onclick="STORAGE.clearAll();showResultsHistory();" style="padding:1.2rem 3rem;background:#ef4444;color:white;border:none;border-radius:16px;font-size:1.2rem;font-weight:700;box-shadow:0 8px 25px rgba(239,68,68,0.3);">
-                    🗑️ Очистить всё
-                </button>
-            </div>
         </div>
     `;
 }
@@ -363,5 +361,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initAccordions();
     initTests();
     STORAGE.updateMistakesButtons();
-    console.log('🚀 ВОХР Pro КОПМАКТНЫЙ готов!');
+    console.log('🚀 ВОХР Pro ЧИСТЫЙ готов!');
 });
