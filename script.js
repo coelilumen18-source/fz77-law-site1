@@ -1,4 +1,4 @@
-// 🔥 ТЕСТЫ ВОХР Pro — Сохранение + Работа над ошибками + История
+// 🔥 ТЕСТЫ ВОХР Pro — Сохранение + Работа над ошибками + История (КОМПАКТНАЯ ВЕРСИЯ)
 // Автор: Perplexity AI для coelilumen18-source
 
 // Утилиты
@@ -112,7 +112,6 @@ function initAccordions() {
 let quizData = [], currentQuiz = null, currentQuestion = 0, userAnswers = [], correctCount = 0, isMistakesMode = false;
 
 function initTests() {
-    // Обычные тесты
     document.querySelectorAll('.test-btn:not(.mistakes-btn)').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault(); e.stopPropagation();
@@ -122,7 +121,6 @@ function initTests() {
         });
     });
     
-    // Работа над ошибками
     document.querySelectorAll('.mistakes-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault(); e.stopPropagation();
@@ -159,7 +157,6 @@ async function startQuiz() {
                 return;
             }
             quizData = mistakes.map(i => data[i]);
-            contentArea.innerHTML += `<div style="text-align:center;color:#ef4444;font-size:1.2rem;margin:1rem 0;">🚨 Работа над ошибками: ${quizData.length} вопросов</div>`;
         } else if (currentQuiz === 'exam' || currentQuiz === 'marathon') {
             const shuffled = [...data].sort(() => Math.random() - 0.5);
             quizData = shuffled.slice(0, count);
@@ -187,37 +184,42 @@ async function startQuiz() {
     showQuizQuestion();
 }
 
+// 🔥 КОМПАКТНЫЙ ТЕСТ (ВСЁ на 1 экран!)
 function showQuizQuestion() {
     const progress = ((currentQuestion + 1) / quizData.length) * 100;
     contentArea.innerHTML = `
         <style>
-            .quiz-container {max-width:750px;margin:0 auto;padding:2rem;}
-            .score-panel {display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;padding:1.5rem;background:linear-gradient(135deg,#f8fafc,#e2e8f0);border-radius:16px;border:2px solid #e2e8f0;box-shadow:0 4px 20px rgba(0,0,0,0.08);}
-            .progress-bar {height:8px;background:#e5e7eb;border-radius:6px;overflow:hidden;margin-bottom:2rem;}
-            .quiz-question {font-size:1.3rem;line-height:1.7;margin-bottom:2rem;padding:2rem;background:#f9fafb;border-radius:16px;border-left:6px solid #3b82f6;box-shadow:0 6px 20px rgba(0,0,0,0.08);}
-            .option-btn {width:100%;padding:1.5rem;margin-bottom:1rem;text-align:left;background:#fff;border:2px solid #e5e7eb;border-radius:12px;cursor:pointer;font-size:1.1rem;transition:all 0.4s;box-shadow:0 3px 12px rgba(0,0,0,0.08);}
-            .option-btn:hover {transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.12);}
+            .quiz-compact {max-width:680px;margin:1rem auto;padding:1.2rem;}
+            .score-compact {display:flex;align-items:center;gap:0.75rem;padding:0.75rem 1rem;background:var(--bg-secondary);border-radius:10px;border:1px solid var(--border);margin-bottom:1rem;font-size:0.95rem;}
+            .progress-compact {height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:1rem;}
+            .question-compact {font-size:1.1rem;line-height:1.5;padding:1.1rem 1.2rem;background:var(--bg-secondary);border-radius:10px;border-left:4px solid var(--accent);margin-bottom:1.2rem;}
+            .option-compact {width:100%;padding:0.85rem 1rem;margin-bottom:0.5rem;border:2px solid var(--border);border-radius:10px;cursor:pointer;font-size:0.92rem;transition:all 0.3s;font-weight:500;}
+            .option-compact:hover {border-color:var(--accent);transform:translateY(-1px);box-shadow:var(--shadow);}
+            .next-compact {width:100%;padding:0.9rem;font-size:1rem;margin-top:1rem;border-radius:12px;font-weight:600;background:var(--accent);color:white;border:none;box-shadow:var(--shadow);cursor:pointer;transition:all 0.2s;}
+            .next-compact:hover {transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,130,246,0.3);}
         </style>
-        <div class="quiz-container">
-            <!-- ШКАЛА ПРАВИЛЬНЫХ -->
-            <div class="score-panel">
-                <div style="font-size:2.5rem;font-weight:800;color:#10b981;">${correctCount}/${currentQuestion + 1}</div>
-                <div style="flex:1;height:12px;background:#e2e8f0;border-radius:8px;overflow:hidden;">
-                    <div style="height:100%;background:linear-gradient(90deg,#10b981,#059669);border-radius:8px;width:${(correctCount/(currentQuestion+1))*100}%"></div>
+        <div class="quiz-compact">
+            <!-- ШКАЛА (1 строка) -->
+            <div class="score-compact">
+                <div style="font-size:1.5rem;font-weight:700;color:#10b981;">${correctCount}/${currentQuestion + 1}</div>
+                <div style="flex:1;height:5px;background:var(--border);border-radius:2px;overflow:hidden;">
+                    <div style="height:100%;background:#10b981;border-radius:2px;width:${(correctCount/(currentQuestion+1))*100}%"></div>
                 </div>
-                <span style="font-size:1.2rem;font-weight:600;color:#374151;">${isMistakesMode ? '🚨 Ошибки' : '📝 Тест'}</span>
+                <span style="font-size:0.85rem;">${isMistakesMode ? '🚨' : '📝'}</span>
             </div>
             
-            <!-- ПРОГРЕСС -->
-            <div class="progress-bar">
-                <div style="height:100%;background:linear-gradient(90deg,#3b82f6,#1d4ed8);border-radius:6px;width:${progress}%"></div>
+            <!-- ПРОГРЕСС (5px) -->
+            <div class="progress-compact">
+                <div style="height:100%;background:var(--accent);border-radius:3px;width:${progress}%"></div>
             </div>
             
-            <div class="quiz-question">
-                <strong style="color:#1f2937;">Вопрос ${currentQuestion + 1}/${quizData.length}:</strong><br><br>
+            <!-- ВОПРОС (короткий) -->
+            <div class="question-compact">
+                <strong>№${currentQuestion + 1}/${quizData.length}:</strong><br>
                 ${quizData[currentQuestion].question}
             </div>
             
+            <!-- КОМПАКТНЫЕ КНОПКИ -->
             <div id="quiz-options"></div>
         </div>
     `;
@@ -225,7 +227,7 @@ function showQuizQuestion() {
     const container = document.getElementById('quiz-options');
     quizData[currentQuestion].options.forEach((option, index) => {
         const btn = document.createElement('button');
-        btn.className = 'option-btn';
+        btn.className = 'option-compact';
         btn.innerHTML = option;
         btn.dataset.index = index;
         btn.onclick = () => selectOption(index, btn);
@@ -236,19 +238,21 @@ function showQuizQuestion() {
 function selectOption(selectedIndex, clickedBtn) {
     const correctIndex = quizData[currentQuestion].correct;
     
-    document.querySelectorAll('.option-btn').forEach((btn, index) => {
+    document.querySelectorAll('.option-compact').forEach((btn, index) => {
         btn.disabled = true;
+        btn.style.cursor = 'not-allowed';
+        
         if (index === correctIndex) {
             btn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
             btn.style.color = 'white';
-            btn.style.border = '3px solid #10b981';
-            btn.innerHTML += ' <span style="font-size:1rem;">✅ ПРАВИЛЬНО</span>';
+            btn.style.border = '2px solid #10b981';
+            btn.innerHTML += ' <span style="font-size:0.9rem;">✅</span>';
         } else if (index === selectedIndex) {
             btn.style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
             btn.style.color = 'white';
-            btn.style.border = '3px solid #ef4444';
-            btn.innerHTML += ' <span style="font-size:1rem;">❌ НЕПРАВИЛЬНО</span>';
-            STORAGE.addMistake(currentQuiz, currentQuestion); // 🔥 СОХРАНИМ ОШИБУ
+            btn.style.border = '2px solid #ef4444';
+            btn.innerHTML += ' <span style="font-size:0.9rem;">❌</span>';
+            STORAGE.addMistake(currentQuiz, currentQuestion);
         } else {
             btn.style.opacity = '0.5';
         }
@@ -257,15 +261,11 @@ function selectOption(selectedIndex, clickedBtn) {
     if (selectedIndex === correctIndex) correctCount++;
     userAnswers[currentQuestion] = selectedIndex;
     
+    // КОМПАКТНАЯ кнопка "Продолжить"
     setTimeout(() => {
         const nextBtn = document.createElement('button');
         nextBtn.innerHTML = `➡️ Продолжить (${currentQuestion + 2}/${quizData.length})`;
-        nextBtn.style.cssText = `
-            width:100%;padding:1.4rem;margin-top:2rem;font-size:1.2rem;
-            background:linear-gradient(135deg,#10b981,#059669);color:white;
-            border:none;border-radius:16px;cursor:pointer;font-weight:600;
-            box-shadow:0 8px 25px rgba(16,185,129,0.3);
-        `;
+        nextBtn.className = 'next-compact';
         nextBtn.onclick = nextQuestion;
         contentArea.appendChild(nextBtn);
     }, 2200);
@@ -363,5 +363,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initAccordions();
     initTests();
     STORAGE.updateMistakesButtons();
-    console.log('🚀 ВОХР Pro готов! Сохранение + Ошибки + История');
+    console.log('🚀 ВОХР Pro КОПМАКТНЫЙ готов!');
 });
